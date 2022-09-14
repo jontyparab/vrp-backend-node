@@ -2,9 +2,11 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const { createServer } = require('@graphql-yoga/node')
 
 
-const { graphqlHTTP } = require("express-graphql");
+// const { graphqlHTTP } = require("express-graphql");
+const graphQLServer = createServer()
 
 //const graphqlSchema = require("./graphql/schema");
 //const graphqlResolver = require("./graphql/resolver");
@@ -28,7 +30,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/healthz', function (req, res) {
+	// do app logic here to determine if app is truly healthy
+	// you should return 200 if healthy, and anything else will fail
+	// if you want, you should be able to restrict this to localhost (include ipv4 and ipv6)
+  res.send('I am happy and healthy\n');
+});
 
+app.use('/graphql', graphQLServer)
 // app.use(
 //   "/graphql",
 //   graphqlHTTP({
@@ -56,6 +65,4 @@ app.use((req, res, next) => {
 //   })
 //   .catch((err) => console.log(err));
 
-app.listen(8080,() => {
-  console.log('connected')
-});
+module.exports = app;
