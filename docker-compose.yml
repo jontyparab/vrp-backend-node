@@ -10,6 +10,18 @@ services:
   node:
     build:
       context: .
+    networks:
+      - db_net
+      - flask_net
 
   mongo:
     image: mongo:4.4
+    networks:
+      - db_net
+
+networks:
+  db_net:
+    name: db_net
+    driver: bridge
+  flask_net:
+    external: true
