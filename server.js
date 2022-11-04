@@ -1,6 +1,7 @@
 const app = require("./app");
 
-// Constants
+require('dotenv').config();
+
 const PORT = process.env.PORT || 8080;
 // if you're not using docker-compose for local development, this will default to 8080
 // to prevent non-root permission problems with 80. Dockerfile is set to make this 80
@@ -9,7 +10,16 @@ const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, function () {
     console.log(`Webserver is ready and listening on port ${PORT}`);
 });
-  
+
+let sockets = {}, nextSocketId = 0;
+server.on('connection', function (socket) {
+  const socketId = nextSocketId++;
+  sockets[socketId] = socket;
+
+  socket.once('close', function() {
+    delete sockets[socketId];
+  });
+});
 
 // need this in docker container to properly exit since node doesn't handle SIGINT/SIGTERM
 // this also won't work on using npm start since:
@@ -18,7 +28,6 @@ const server = app.listen(PORT, function () {
 // https://github.com/RisingStack/kubernetes-graceful-shutdown-example/blob/master/src/index.js
 // if you want to use npm then start with `docker run --init` to help, but I still don't think it's
 // a graceful shutdown of node process
-//
 
 // quit on ctrl-c when running docker in terminal
 process.on('SIGINT', function onSigint () {
@@ -31,16 +40,6 @@ process.on('SIGTERM', function onSigterm () {
     console.info('Got SIGTERM (docker container stop). Graceful shutdown ', new Date().toISOString());
     shutdown();
 })
-
-let sockets = {}, nextSocketId = 0;
-server.on('connection', function (socket) {
-  const socketId = nextSocketId++;
-  sockets[socketId] = socket;
-
-  socket.once('close', function() {
-    delete sockets[socketId];
-  });
-});
 
 // shut down server
 let timer;
