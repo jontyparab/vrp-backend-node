@@ -1,12 +1,16 @@
+version: '3.8'
+
 services:
 
   node:
     # reminder, don't use latest tag in production, use versions created by CI/CD
     # image: bretfisher/node-docker-good-defaults:latest
-    build: 
-      context: .
+    # build: 
+      # context: .
+    image: jonty99/vrp-backend-node:latest
+    command: node /opt/node_app/app/server.js
     ports:
-      - "80:3000"
+      - "3000:3000"
     environment:
       - NODE_ENV=production
       - MONGO_USERNAME_FILE=/run/secrets/mongo_root
@@ -21,6 +25,7 @@ services:
       replicas: 1
 
   mongo:
+    command: ['mongod', '--bind_ip', '0.0.0.0']
     ports:
       - "27017:27017"
     environment:
@@ -30,6 +35,9 @@ services:
     secrets:
       - mongo_root
       - mongo_root_password
+    volumes:
+      - mongodata:/data/db
+      # - ./mongod.conf:/etc/mongod.conf:ro
     healthcheck:
       test: "[ `echo 'db.runCommand(\"ping\").ok' | mongo localhost/example-database --quiet` ] && echo 0 || echo 1"
       interval: 5s
@@ -41,3 +49,6 @@ secrets:
     external: true
   mongo_root_password:
     external: true
+
+volumes:
+  mongodata:

@@ -23,7 +23,9 @@ file_env() {
 	unset "$fileVar"
 }
 
+echo '##################docker-entrypoint.sh####################'
 file_env 'MONGO_USERNAME'
 file_env 'MONGO_PASSWORD'
+echo '##################docker-entrypoint.sh ENDED####################'
 
 exec "$@"

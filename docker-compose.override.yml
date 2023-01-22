@@ -1,3 +1,5 @@
+name: vrp-backend
+
 services:
 
   node:
@@ -10,6 +12,7 @@ services:
     # which has trouble seeing file changes, so add -L to use legacy polling
     # https://github.com/remy/nodemon#application-isnt-restarting
     #command: ../node_modules/.bin/nodemon --debug=0.0.0.0:5858
+    # NOTE: in DockerFile last pwd is /opt/node_app/app. Below command depends on it.
     command: ../node_modules/.bin/nodemon --inspect=0.0.0.0:9229 ./server.js
     ports:
       - "8080:3000"
@@ -32,8 +35,8 @@ services:
       - notused:/opt/node_app/app/node_modules
     environment:
       - NODE_ENV=development
-      - MONGO_USERNAME=root
-      - MONGO_PASSWORD=example
+      - MONGO_USERNAME=root-local
+      - MONGO_PASSWORD=example-local
       - MONGO_HOSTNAME=mongo
       - MONGO_PORT=27017
       - MONGO_DATABASE_NAME=example-database
@@ -47,8 +50,8 @@ services:
     ports:
       - "27017:27017"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=example
+      - MONGO_INITDB_ROOT_USERNAME=root-local
+      - MONGO_INITDB_ROOT_PASSWORD=example-local
       - MONGO_INITDB_DATABASE=example-database
     volumes:
       # this is an example of how to seed data in mongo containers. The Docker Hub mongo README
