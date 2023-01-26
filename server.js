@@ -1,6 +1,7 @@
-const app = require("./app");
+import app from './app.js'
+import {config} from 'dotenv'
 
-require('dotenv').config();
+config();
 
 const PORT = process.env.PORT || 8080;
 // if you're not using docker-compose for local development, this will default to 8080

@@ -1,0 +1,53 @@
+type Query {
+  problems: [ProblemInfo]
+  problem(id: ID!): ProblemInfo
+}
+
+type Mutation {
+  createProblem(id: ID!, file: String!): ProblemInfo
+  getProblem(id: ID!): ProblemInfo
+  deleteProblem(id: ID!): ID
+  updateProblemInfo(id: ID!, input: ProblemInfoInput): ProblemInfo
+  updateProblemSolution(id: ID!, route: Route): ProblemInfo
+}
+
+input ProblemInfoInput {
+  name: String
+  dimension: Int
+  vehicles: Int
+  optimalValue: Int
+  capacity: Int
+  depotNode: Int
+  nodeData: [NodeInfo]
+}
+
+type ProblemInfo {
+  id: ID!
+  name: String
+  dimension: Int
+  vehicles: Int
+  optimalValue: Int
+  capacity: Int
+  depotNode: Int
+  nodeData: [NodeInfo]
+  solution: Solution
+  file: String!
+}
+
+type NodeInfo {
+  node: Int
+  latitude: Float
+  longitude: Float
+  demand: Int
+  priority: Int
+}
+
+type Solution {
+  routes: [Route]
+  totalDistance: Int
+}
+
+type Route {
+  tour: [Int]
+  tourDistance: Int
+}

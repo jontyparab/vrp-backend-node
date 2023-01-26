@@ -1,6 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from mongoose;
 
-require('dotenv').config();
+import {config} from 'dotenv'
+
+config();
 
 // Update below to match your own MongoDB connection string.
 const MONGO_URL = process.env.MONGO_URL;
@@ -21,7 +23,7 @@ async function mongoDisconnect() {
   await mongoose.disconnect();
 }
 
-module.exports = {
+export {
   mongoConnect,
   mongoDisconnect,
 }
