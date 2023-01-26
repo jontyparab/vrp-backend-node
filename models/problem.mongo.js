@@ -7,24 +7,21 @@ const problemSchema = new mongoose.Schema({
   optimalValue: Number,
   capacity: Number,
   depotNode: Number,
-  nodeData: {
-    rowNumber: {
-      type: Map,
-      of: {
-        node: Number,
-        latitude: Decimal128,
-        longitude: Decimal128,
-        demand: Number,
-        priority: Number,
-      }
+  nodeData: [
+    {
+      node: Number,
+      latitude: Decimal128,
+      longitude: Decimal128,
+      demand: Number,
+      priority: Number,
     }
-  },
+  ],
   solution: {
-    routes: [{tour: [[Number, Number]], tourDistance: Number }],
+    routes: [{tour: [Number], tourDistance: Number }],
     totalDistance: Number
   },
   file: {
-    type: String,
+    type: Buffer,
     required: true
   }
 })

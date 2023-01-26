@@ -5,24 +5,24 @@ export const problemResolver =  {
     problems: () => {
       return problemInfoModel.getAllProblems()
     },
-    problem: () => {
-      return problemInfoModel.getProblemById()
+    problem: (_, args) => {
+      return problemInfoModel.getProblemById(args.id)
     }
   },
   Mutation: {
-    createProblem: (id, file) => {
+    createProblem: (_, args) => {
 
     },
-    getProblem: (id) => {
+    // getProblem: (_, args) => {
+
+    // },
+    deleteProblem: (_, args) => {
 
     },
-    deleteProblem: (id) => {
+    updateProblemInfo: (_, args) => {
 
     },
-    updateProblemInfo: (id) => {
-
-    },
-    updateProblemSolution: (id) => {
+    updateProblemSolution: (_, args) => {
 
     }
   }

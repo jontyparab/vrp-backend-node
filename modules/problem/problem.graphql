@@ -5,10 +5,10 @@ type Query {
 
 type Mutation {
   createProblem(id: ID!, file: String!): ProblemInfo
-  getProblem(id: ID!): ProblemInfo
+  # getProblem(id: ID!): ProblemInfo
   deleteProblem(id: ID!): ID
   updateProblemInfo(id: ID!, input: ProblemInfoInput): ProblemInfo
-  updateProblemSolution(id: ID!, route: Route): ProblemInfo
+  updateProblemSolution(id: ID!, route: RouteInput): ProblemInfo
 }
 
 input ProblemInfoInput {
@@ -18,7 +18,7 @@ input ProblemInfoInput {
   optimalValue: Int
   capacity: Int
   depotNode: Int
-  nodeData: [NodeInfo]
+  nodeData: [NodeInfoInput]
 }
 
 type ProblemInfo {
@@ -31,7 +31,15 @@ type ProblemInfo {
   depotNode: Int
   nodeData: [NodeInfo]
   solution: Solution
-  file: String!
+  file: [Int]
+}
+
+input NodeInfoInput {
+  node: Int
+  latitude: Float
+  longitude: Float
+  demand: Int
+  priority: Int
 }
 
 type NodeInfo {
@@ -45,6 +53,11 @@ type NodeInfo {
 type Solution {
   routes: [Route]
   totalDistance: Int
+}
+
+input RouteInput {
+  tour: [Int]
+  tourDistance: Int
 }
 
 type Route {
