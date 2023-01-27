@@ -1,4 +1,6 @@
+import http from 'http'
 import app from './app.js'
+import { mongoConnect } from './services/mongo.js'
 import {config} from 'dotenv'
 
 config();
@@ -8,9 +10,16 @@ const PORT = process.env.PORT || 8080;
 // to prevent non-root permission problems with 80. Dockerfile is set to make this 80
 // because containers don't have that issue :)
 
-const server = app.listen(PORT, function () {
+const server = http.createServer(app);
+
+async function startServer() {
+  await mongoConnect();
+  // Add any functions that fetch data before app starts below
+  
+  server.listen(PORT, function () {
     console.log(`Webserver is ready and listening on port ${PORT}`);
-});
+  });
+}
 
 let sockets = {}, nextSocketId = 0;
 server.on('connection', function (socket) {
@@ -32,7 +41,7 @@ server.on('connection', function (socket) {
 
 // quit on ctrl-c when running docker in terminal
 process.on('SIGINT', function onSigint () {
-	console.info('Got SIGINT (aka ctrl-c in docker). Graceful shutdown ', new Date().toISOString());
+  console.info('Got SIGINT (aka ctrl-c in docker). Graceful shutdown ', new Date().toISOString());
     shutdown();
 });
 
@@ -69,3 +78,5 @@ function waitForSocketsToClose(counter) {
     sockets[socketId].destroy();
   }
 }
+
+startServer();

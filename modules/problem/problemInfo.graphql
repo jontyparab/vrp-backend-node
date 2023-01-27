@@ -1,14 +1,13 @@
 type Query {
-  problems: [ProblemInfo]
-  problem(id: ID!): ProblemInfo
+  problemInfos: [ProblemInfo]
+  problemInfo(id: ID!): ProblemInfo
 }
 
 type Mutation {
-  createProblem(id: ID!, file: String!): ProblemInfo
-  # getProblem(id: ID!): ProblemInfo
-  deleteProblem(id: ID!): ID
+  createProblemInfo(file: [Int]!): ProblemInfo
+  deleteProblemInfo(id: ID!): ID
   updateProblemInfo(id: ID!, input: ProblemInfoInput): ProblemInfo
-  updateProblemSolution(id: ID!, route: RouteInput): ProblemInfo
+  updateProblemInfoSolution(id: ID!, route: RouteInput): ProblemInfo
 }
 
 input ProblemInfoInput {

@@ -24,7 +24,9 @@ WORKDIR /opt/node_app
 # https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md#non-root-user
 USER node
 COPY --chown=node:node package*.json ./
-RUN npm ci && npm cache clean --force
+# RUN npm ci && npm cache clean --force
+# For yarn on local
+RUN if [ ! -e package-lock.json ]; then npm i --package-lock-only; fi; npm ci && npm cache clean --force
 ENV PATH /opt/node_app/node_modules/.bin:$PATH
 
 # check every 30s to ensure this service returns HTTP 200

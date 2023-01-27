@@ -1,4 +1,4 @@
-import mongoose from mongoose;
+import mongoose from 'mongoose';
 
 import {config} from 'dotenv'
 
@@ -6,7 +6,7 @@ config();
 
 // Update below to match your own MongoDB connection string.
 const MONGO_URL = process.env.MONGO_URL;
-
+console.log(process.env.MONGO_URL)
 mongoose.connection.once('open', () => {
   console.log('MongoDB connection ready!');
 });
@@ -16,7 +16,12 @@ mongoose.connection.on('error', (err) => {
 });
 
 async function mongoConnect() {
-  await mongoose.connect(MONGO_URL);
+  console.log('Trying to connect mongodb...')
+  await mongoose.connect(MONGO_URL, { 
+    // add options that are common to both dev and prod here
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+  });
 }
 
 async function mongoDisconnect() {

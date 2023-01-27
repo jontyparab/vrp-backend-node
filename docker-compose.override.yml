@@ -27,7 +27,7 @@ services:
       # NOTE: this won't work on Docker Toolbox (virtualbox) which doesn't bind-mount single files
       # docker-compose exec node npm install --save bower
       - ./package.json:/opt/node_app/package.json
-      - ./package-lock.json:/opt/node_app/package-lock.json
+      # - ./package-lock.json:/opt/node_app/package-lock.json
       # this is a workaround to prevent host node_modules from accidently getting mounted in container
       # in case you want to use node/npm both outside container for test/lint etc. and also inside container
       # this will overwrite the default node_modules dir in container so it won't conflict with our
@@ -35,11 +35,12 @@ services:
       - notused:/opt/node_app/app/node_modules
     environment:
       - NODE_ENV=development
+      - MONGO_URL=mongodb://root-local:example-local@mongo:27017/exampleDb?authMechanism=DEFAULT&authSource=admin
       - MONGO_USERNAME=root-local
       - MONGO_PASSWORD=example-local
       - MONGO_HOSTNAME=mongo
       - MONGO_PORT=27017
-      - MONGO_DATABASE_NAME=example-database
+      - MONGO_DATABASE_NAME=exampleDb
     depends_on:
       mongo:
         condition: service_healthy
@@ -52,7 +53,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root-local
       - MONGO_INITDB_ROOT_PASSWORD=example-local
-      - MONGO_INITDB_DATABASE=example-database
+      - MONGO_INITDB_DATABASE=exampleDb
     volumes:
       # this is an example of how to seed data in mongo containers. The Docker Hub mongo README
       # explains that any data dropped into the docker-entrypoint-initdb.d directory will be injected 
@@ -61,7 +62,7 @@ services:
       - mongodata:/data/db
     # we need to check health here, so that docker-compose will wait for a healthy mongo before it starts node
     healthcheck:
-      test: "[ `echo 'db.runCommand(\"ping\").ok' | mongo localhost/example-database --quiet` ] && echo 0 || echo 1"
+      test: "[ `echo 'db.runCommand(\"ping\").ok' | mongo localhost/exampleDb --quiet` ] && echo 0 || echo 1"
       interval: 5s
       start_period: 10s
       timeout: 4s

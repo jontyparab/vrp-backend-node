@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const problemSchema = new mongoose.Schema({
+const problemInfoSchema = new mongoose.Schema({
   name: String,
   dimension: Number,
   vehicles: Number,
@@ -10,8 +10,8 @@ const problemSchema = new mongoose.Schema({
   nodeData: [
     {
       node: Number,
-      latitude: Decimal128,
-      longitude: Decimal128,
+      latitude: Number,
+      longitude: Number,
       demand: Number,
       priority: Number,
     }
@@ -24,7 +24,7 @@ const problemSchema = new mongoose.Schema({
     type: Buffer,
     required: true
   }
-})
+}, { collection: 'problemInfos'})
 
-// Connects problemSchema with the "problem" collection
-export const problem = mongoose.model('Problem', problemSchema);
+// Connects problemInfoSchema with the "problemInfos" collection and __typename problemInfo
+export default mongoose.model('problemInfo', problemInfoSchema);

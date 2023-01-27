@@ -10,12 +10,12 @@ import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 import { createYoga } from 'graphql-yoga'
 
 // Importing resolvers manually
-import { problemResolver } from './modules/problem/problem.resolvers.js'
+import { problemResolver } from './modules/problem/problemInfo.resolvers.js'
 
 const app = express();
 
 app.use(cors({
-	origin: ['http://localhost:8080', 'http://react:80', 'http://solver:8000', 'http://mongo:27017'],
+	origin: ['http://localhost:8080', 'http://localhost:3000', 'http://solver:8000', 'http://mongo:27017'],
 }));
 app.use(morgan('combined'));
 
