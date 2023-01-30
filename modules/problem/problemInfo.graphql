@@ -5,9 +5,9 @@ type Query {
 
 type Mutation {
   createProblemInfo(file: [Int]!): ProblemInfo
-  deleteProblemInfo(id: ID!): ID
-  updateProblemInfo(id: ID!, input: ProblemInfoInput): ProblemInfo
-  updateProblemInfoSolution(id: ID!, route: RouteInput): ProblemInfo
+  deleteProblemInfo(id: ID!): DeleteStats
+  updateProblemInfo(id: ID!, input: ProblemInfoInput): UpdateStats
+  updateProblemInfoSolution(id: ID!, input: RouteInput): UpdateStats
 }
 
 input ProblemInfoInput {
@@ -60,6 +60,21 @@ input RouteInput {
 }
 
 type Route {
+  id: ID!
   tour: [Int]
   tourDistance: Int
+}
+
+# https://stackoverflow.com/questions/65813060/which-value-should-be-returned-by-a-apollo-graphql-mutation
+type UpdateStats {
+  nModified: Int
+  nInserted: Int
+  n: Int
+  ok: Int
+}
+
+type DeleteStats {
+  n: Int
+  ok: Int
+  deletedCount: Int
 }

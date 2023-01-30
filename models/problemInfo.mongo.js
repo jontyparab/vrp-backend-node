@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 const problemInfoSchema = new mongoose.Schema({
+  // https://mongoosejs.com/docs/guide.html#_id
   name: String,
   dimension: Number,
   vehicles: Number,
@@ -17,7 +18,13 @@ const problemInfoSchema = new mongoose.Schema({
     }
   ],
   solution: {
-    routes: [{tour: [Number], tourDistance: Number }],
+    routes: [
+      {
+        _id: String,
+        tour: [Number], 
+        tourDistance: Number 
+      }
+    ],
     totalDistance: Number
   },
   file: {

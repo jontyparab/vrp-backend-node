@@ -15,13 +15,13 @@ export const problemResolver =  {
       return problemInfoModel.createProblemInfo(args.file)
     },
     deleteProblemInfo: (_, args) => {
-
+      return problemInfoModel.deleteProblemInfo(args.id)
     },
     updateProblemInfo: (_, args) => {
-
+      return problemInfoModel.updateProblemInfo(args.id, args.input)
     },
     updateProblemInfoSolution: (_, args) => {
-
+      return problemInfoModel.updateProblemInfoSolution(args.id, args.input)
     }
   }
 }
