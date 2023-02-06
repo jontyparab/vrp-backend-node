@@ -39,6 +39,10 @@ services:
     volumes:
       - mongodata:/data/db
       # - ./mongod.conf:/etc/mongod.conf:ro
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
     healthcheck:
       test: "[ `echo 'db.runCommand(\"ping\").ok' | mongo localhost/exampleDb --quiet` ] && echo 0 || echo 1"
       interval: 5s
