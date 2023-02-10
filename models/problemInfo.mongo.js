@@ -29,7 +29,8 @@ const problemInfoSchema = new mongoose.Schema({
   },
   file: {
     type: Buffer,
-    required: true
+    // contentType: String,
+    required: true,
   }
 }, { collection: 'problemInfos'})
 

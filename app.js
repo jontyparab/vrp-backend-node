@@ -14,11 +14,8 @@ import { problemResolver } from './modules/problem/problemInfo.resolvers.js'
 
 const app = express();
 
-app.use(cors({
-	origin: ['http://localhost:8080', 'http://localhost:3000', 'http://solver:8000', 'http://mongo:27017'],
-}));
+app.use(cors());
 app.use(morgan('combined'));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); 
 
@@ -35,6 +32,14 @@ const schema = makeExecutableSchema({
 const graphQLServer = createYoga({schema})
 
 app.use('/graphql', graphQLServer)
+
+app.use('/test', function (req, res) {
+  const file = req.file
+  console.log(req.body)
+  return res.status(200).json({
+    file: 'file'
+  })
+})
 
 // app.use((req, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "*");

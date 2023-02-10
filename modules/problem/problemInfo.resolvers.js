@@ -1,5 +1,6 @@
 // Importing our data access layer
 import * as problemInfoModel from '../../models/problemInfo.model.js'
+import { solverAxios } from '../../services/axios.js'
 
 export const problemResolver =  {
   Query: {
@@ -11,8 +12,13 @@ export const problemResolver =  {
     }
   },
   Mutation: {
-    createProblemInfo: (_, args) => {
-      return problemInfoModel.createProblemInfo(args.file)
+    createProblemInfo: async (_, args) => {
+      const problemInfo = await problemInfoModel.createProblemInfo(args.file)
+      const res = await solverAxios.post('/route', {
+        id: problemInfo.id,
+        file: problemInfo.file
+      })
+      return problemInfo
     },
     deleteProblemInfo: (_, args) => {
       return problemInfoModel.deleteProblemInfo(args.id)

@@ -19,6 +19,7 @@ services:
       - MONGO_HOSTNAME=mongo
       - MONGO_PORT=27017
       - MONGO_DATABASE_NAME=exampleDb
+      - SOLVER_URL=http://rproxy:4000/
     secrets:
       - mongo_url
       - mongo_root
