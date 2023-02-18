@@ -12,7 +12,7 @@ services:
       - backend_net
 
   mongo:
-    image: mongo:4.4.6
+    image: mongo:4.4
     networks:
       - backend_net
 
