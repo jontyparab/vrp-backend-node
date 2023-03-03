@@ -14,10 +14,16 @@ export const problemResolver =  {
   Mutation: {
     createProblemInfo: async (_, args) => {
       const problemInfo = await problemInfoModel.createProblemInfo(args.file)
-      const res = await solverAxios.post('/route', {
-        id: problemInfo.id,
-        file: problemInfo.file
-      })
+      try {
+        await solverAxios.post('/route', {
+          id: problemInfo.id,
+          file: problemInfo.file
+        })
+      } catch (error) {
+        console.log(error)
+        problemInfoModel.deleteProblemInfo(problemInfo.id)
+        throw new Error('Invalid file structure.')
+      }
       return problemInfo
     },
     deleteProblemInfo: (_, args) => {
