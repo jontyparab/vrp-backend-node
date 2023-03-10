@@ -17,6 +17,7 @@ input ProblemInfoInput {
   optimalValue: Int
   capacity: Int
   depotNode: Int
+  demandType: [DemandTypeInput]
   nodeData: [NodeInfoInput]
 }
 
@@ -28,6 +29,7 @@ type ProblemInfo {
   optimalValue: Int
   capacity: Int
   depotNode: Int
+  demandType: [DemandType]
   nodeData: [NodeInfo]
   solution: Solution
   file: [Int]
@@ -52,6 +54,18 @@ type NodeInfo {
 type Solution {
   routes: [Route]
   totalDistance: Int
+}
+
+input DemandTypeInput {
+  node: Int
+  items: [String]
+  quantity: [Int]
+}
+
+type DemandType {
+  node: Int
+  items: [String]
+  quantity: [Int]
 }
 
 input RouteInput {

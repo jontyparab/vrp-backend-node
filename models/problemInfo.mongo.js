@@ -27,6 +27,13 @@ const problemInfoSchema = new mongoose.Schema({
     ],
     totalDistance: Number
   },
+  demandType: [
+    {
+      node: Number,
+      items: [String],
+      quantity: [Number]
+    }
+  ],
   file: {
     type: Buffer,
     // contentType: String,
